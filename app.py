@@ -1,4 +1,5 @@
-from flask import Flask #Flask class
+from flask import Flask, jsonify #Flask class
+
 
 app = Flask(__name__) #object of Flask class
 
@@ -17,6 +18,14 @@ def user(name):
 @app.route("/age/<int:age>")
 def age_of(age):
     return f"you are {age}'s old"
+
+@app.route("/api/user/<name>/<int:age>")
+def user_details(name,age):
+    user_data =  {
+        "name" : name,
+        "age" : age
+    } 
+    return jsonify(user_data)
 
 
 if __name__ == "__main__":
