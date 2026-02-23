@@ -36,7 +36,7 @@ def search():
     age = request.args.get("age")
     return f"you are {age} years old"
 
-#path and query params
+
 @app.route("/api/user/<username>")
 def user_profile(username):
     age = request.args.get("age") #typo in query key will return null 
@@ -47,6 +47,24 @@ def user_profile(username):
         "age" : age,
         "city" : city
     })
+    
+    
+@app.route("/api/create_user", methods = ["POST"])
+def create_user():
+    data = request.get_json() #method to get the json body 
+    name = data.get("name")
+    email = data.get("email")
+    return jsonify({
+        "name" : name,
+        "email" : email,
+        "message" :"User created!"
+        
+    })
+
+#request.get_json   # the function object itself
+#request.get_json() # calls the function and returns a dict
+
+
 
 if __name__ == "__main__":
     app.run(host='127.0.0.1', port=8000, debug=True)
