@@ -65,6 +65,21 @@ def create_user():
 #request.get_json() # calls the function and returns a dict
 
 
+@app.route("/api/create_product", methods = ["POST"])
+def product():
+    data = request.get_json()
+    print("Incoming request:", data)
+    name = data["name"]
+    price = data["price"] #wll throw key error if key not in client data returns 500
+    brand = data.get("brand") #returns null if no such key in client data
+    return jsonify({
+        "name" : name,
+        "price" : price,
+        "brand" : brand,
+        "message" : "Product created"
+    })
+
+
 
 if __name__ == "__main__":
     app.run(host='127.0.0.1', port=8000, debug=True)
