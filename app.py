@@ -69,16 +69,36 @@ def create_user():
 def product():
     data = request.get_json()
     print("Incoming request:", data)
-    name = data["name"]
-    price = data["price"] #wll throw key error if key not in client data returns 500
-    brand = data.get("brand") #returns null if no such key in client data
+    name = data.get("name")
+    price = data.get("price")
+    brand = data.get("brand", "Unknown") #optional
     return jsonify({
         "name" : name,
         "price" : price,
         "brand" : brand,
         "message" : "Product created"
-    })
+    }), 201
 
+
+#broken validation 
+@app.route("/api/create_shipment", methods = ["POST"])
+def shipment():
+    data = request.get_json()
+    order_id = data.get("order_id")
+    destination = data.get("destination")
+    weight = data.get("weight", 0)
+    
+    if not order_id or not destination:
+        return jsonify({
+            "message": "order id and distination required"
+        }), 400
+    else: 
+        return jsonify({
+            "message" : "shipment created",
+            "order_id" : order_id,
+            "destination" : destination,
+            "weight" : weight
+        })
 
 
 if __name__ == "__main__":
