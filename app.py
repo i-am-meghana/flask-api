@@ -80,7 +80,7 @@ def product():
     }), 201
 
 
-#broken validation 
+#required field validation 
 @app.route("/api/create_shipment", methods = ["POST"])
 def shipment():
     data = request.get_json()
@@ -88,17 +88,17 @@ def shipment():
     destination = data.get("destination")
     weight = data.get("weight", 0)
     
-    if not order_id or not destination:
+    if not order_id or not destination: #catches falsey values for these fields 
         return jsonify({
             "message": "order id and distination required"
         }), 400
-    else: 
-        return jsonify({
+    
+    return jsonify({
             "message" : "shipment created",
             "order_id" : order_id,
             "destination" : destination,
             "weight" : weight
-        })
+    })
 
 
 if __name__ == "__main__":
